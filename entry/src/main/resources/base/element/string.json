@@ -1,0 +1,80 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "Module Description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Entry Ability Description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "Entry Label"
+    },
+    {
+      "name": "drive_sense",
+      "value": "Drive Sense"
+    },
+    {
+      "name": "analyze",
+      "value": "Analyze your driving style in real-time"
+    },
+    {
+      "name": "view_history",
+      "value": "View History"
+    },
+    {
+      "name": "version",
+      "value": "v0.1.0"
+    },
+    {
+      "name": "drive_summary",
+      "value": "🚗 Drive Summary"
+    },
+    {
+      "name": "hard_brake_count",
+      "value": "🚧 Hard Brake Count"
+    },
+    {
+      "name": "sharp_turn_count",
+      "value": "🔁 Sharp Turn Count"
+    },
+    {
+      "name": "stop_go_count",
+      "value": "🛑 Stop-Go Count"
+    },
+    {
+      "name": "average_accel",
+      "value": "⚡ Average Acceleration (Z)"
+    },
+    {
+      "name": "total_penalty",
+      "value": "🧮 Total Penalty Score"
+    },
+    {
+      "name": "back_button",
+      "value": "🔙 Go Back"
+    },
+    {
+      "name": "history_button",
+      "value": "📜 Past Drives"
+    },
+    {
+      "name": "alert_hard_brake",
+      "value": "🚨 Hard Brake!"
+    },
+    {
+      "name": "alert_sharp_turn",
+      "value": "↪️ Sharp Turn!"
+    },
+    {
+      "name": "alert_stop_go",
+      "value": "🛑 Stop & Go!"
+    },
+    {
+      "name": "delete",
+      "value": "Delete"
+    }
+  ]
+}

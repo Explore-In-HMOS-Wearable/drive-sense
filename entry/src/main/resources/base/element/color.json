@@ -1,0 +1,44 @@
+{
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "primary",
+      "value": "#1E88E5"
+    },
+    {
+      "name": "danger",
+      "value": "#D32F2F"
+    },
+    {
+      "name": "text_primary",
+      "value": "#FFFFFF"
+    },
+    {
+      "name": "text_secondary",
+      "value": "#BBBBBB"
+    },
+    {
+      "name": "link",
+      "value": "#1E88E5"
+    },
+    {
+      "name": "version",
+      "value": "#666666"
+    },
+    {
+      "name": "background",
+      "value": "#000000"
+    },
+    {
+      "name": "text_value_label",
+      "value": "#222222"
+    },
+    {
+      "name": "history_background",
+      "value": "#121212"
+    }
+  ]
+}

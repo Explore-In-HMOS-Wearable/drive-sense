@@ -1,0 +1,15 @@
+{
+  "name": "entry",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "",
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "@ohos/lottie": "^2.0.0"
+  },
+  "devDependencies": {
+    "@ohos/lottie": "^2.0.0"
+  }
+}
+
