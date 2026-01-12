@@ -11,8 +11,8 @@ export default class CommonConstantsDb {
     name: 'favorites.db',
     securityLevel: relationalStore.SecurityLevel.S1
   };
-
-  static readonly DriveSummary_Table: TableDefinition = {
+  
+  static readonly DRIVE_SUMMARY_TABLE: TableDefinition = {
     tableName: 'driveSummaryTable',
     sqlCreate: `CREATE TABLE IF NOT EXISTS driveSummaryTable (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

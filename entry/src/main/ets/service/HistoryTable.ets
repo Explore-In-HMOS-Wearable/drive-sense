@@ -6,16 +6,16 @@ import Logger from '../util/Logger';
 
 export default class FavoriteTable {
   private table = new Rdb(
-    CommonConstantsDb.DriveSummary_Table.tableName,
-    CommonConstantsDb.DriveSummary_Table.sqlCreate,
-    CommonConstantsDb.DriveSummary_Table.columns
+    CommonConstantsDb.DRIVE_SUMMARY_TABLE.tableName,
+    CommonConstantsDb.DRIVE_SUMMARY_TABLE.sqlCreate,
+    CommonConstantsDb.DRIVE_SUMMARY_TABLE.columns
   );
 
   constructor(callback: Function = () => {}) {
     this.table.getRdbStore(callback);
   }
   clearAll(callback: (success: boolean) => void) {
-    const predicates = new relationalStore.RdbPredicates(CommonConstantsDb.DriveSummary_Table.tableName);
+    const predicates = new relationalStore.RdbPredicates(CommonConstantsDb.DRIVE_SUMMARY_TABLE.tableName);
     this.table.deleteData(predicates, callback);
   }
   getRdbStore(callback: Function = () => {}) {
@@ -23,7 +23,7 @@ export default class FavoriteTable {
   }
   dropTable(callback: (success: boolean) => void) {
     this.getRdbStore(() => {
-      const sql = `DROP TABLE IF EXISTS ${CommonConstantsDb.DriveSummary_Table.tableName}`;
+      const sql = `DROP TABLE IF EXISTS ${CommonConstantsDb.DRIVE_SUMMARY_TABLE.tableName}`;
       this.table.executeSql(sql, (err?: Error) => {
         if (err) {
 
@@ -39,7 +39,7 @@ export default class FavoriteTable {
 
   getCount(callback: (count: number) => void) {
     this.getRdbStore(() => {
-      const predicates = new relationalStore.RdbPredicates(CommonConstantsDb.DriveSummary_Table.tableName);
+      const predicates = new relationalStore.RdbPredicates(CommonConstantsDb.DRIVE_SUMMARY_TABLE.tableName);
       this.table.query(predicates, (resultSet: relationalStore.ResultSet | null) => {
         if (!resultSet) {
           callback(0);
@@ -67,14 +67,14 @@ export default class FavoriteTable {
   }
 
   deleteFavorite(id: string, callback: (success: boolean) => void) {
-    const predicates = new relationalStore.RdbPredicates(CommonConstantsDb.DriveSummary_Table.tableName);
+    const predicates = new relationalStore.RdbPredicates(CommonConstantsDb.DRIVE_SUMMARY_TABLE.tableName);
     predicates.equalTo('id', id);
     this.table.deleteData(predicates, callback);
   }
 
   getAll(callback: (recipes: DriveSummary[]) => void) {
     this.getRdbStore(() => {
-      const predicates = new relationalStore.RdbPredicates(CommonConstantsDb.DriveSummary_Table.tableName);
+      const predicates = new relationalStore.RdbPredicates(CommonConstantsDb.DRIVE_SUMMARY_TABLE.tableName);
       this.table.query(predicates, (resultSet: relationalStore.ResultSet | null) => {
         if (!resultSet || resultSet.rowCount === 0) {
           callback([]);

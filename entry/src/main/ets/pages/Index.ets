@@ -24,7 +24,7 @@ struct Index {
   private gyroY: number = 0
   private badScore: number = 0
   private brakeCount: number = 0
-  private driveId:number = 0
+  private driveId: number = 0
   private turnCount: number = 0
   private stopGoCount: number = 0
   private lastAccelZ: number = 0
@@ -34,7 +34,7 @@ struct Index {
   private lastLogTime: number = Date.now()
 
   private viewModel: DriveSummaryViewModel = new DriveSummaryViewModel()
-  private context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext
+  private context = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   aboutToDisappear() {
     if (this.isDriving) {
@@ -48,7 +48,7 @@ struct Index {
         bundleName: this.context.abilityInfo.bundleName,
         abilityName: this.context.abilityInfo.name
       }],
-      operationType: wantAgent.OperationType.START_ABILITY,
+      actionType: wantAgent.OperationType.START_ABILITY,
       requestCode: 0,
       wantAgentFlags: [wantAgent.WantAgentFlags.UPDATE_PRESENT_FLAG]
     }
@@ -61,7 +61,6 @@ struct Index {
         agent
       )
     } catch (e) {
-      Logger.error('startBackgroundRunning error: ' + JSON.stringify(e))
     }
   }
 
@@ -69,10 +68,8 @@ struct Index {
     try {
       await backgroundTaskManager.stopBackgroundRunning(this.context)
     } catch (e) {
-      Logger.error('stopBackgroundRunning error: ' + JSON.stringify(e))
     }
   }
-
 
   private startSensors() {
     try {
@@ -103,7 +100,6 @@ struct Index {
       sensor.off(sensor.SensorId.ACCELEROMETER)
       sensor.off(sensor.SensorId.GYROSCOPE)
     } catch (err) {
-      Logger.error('Sensor off error: ' + JSON.stringify(err))
     }
   }
 
@@ -153,13 +149,13 @@ struct Index {
   }
 
   private shrinkBtn() {
-    animateTo({ duration: UI.DURATION, curve: Curve.Ease }, () => {
+    this.getUIContext().animateTo({ duration: UI.DURATION, curve: Curve.Ease }, () => {
       this.scaleValue = UI.SCALE_DOWN
     })
   }
 
   private restoreBtn() {
-    animateTo({ duration: UI.DURATION, curve: Curve.Ease }, () => {
+    this.getUIContext().animateTo({ duration: UI.DURATION, curve: Curve.Ease }, () => {
       this.scaleValue = 1
     })
   }
@@ -182,9 +178,8 @@ struct Index {
     (this.accelSum / this.accelSamples).toFixed(2) :
       '0';
 
-
     const driveSummary: DriveSummary = {
-      id:this.driveId,
+      id: this.driveId,
       brakeCount: this.brakeCount,
       turnCount: this.turnCount,
       stopGoCount: this.stopGoCount,
@@ -280,13 +275,14 @@ struct Index {
     }
     .onBackPressed(() => {
       this.pageStack.disableAnimation(true)
-      this.pageStack.replacePathByName('Index',false)
+      this.pageStack.replacePathByName('Index', false)
       return true
     })
     .hideTitleBar(true)
     .width(ConstantUI.FULL_WIDTH)
     .height(ConstantUI.FULL_HEIGHT)
   }
+
   pageTransition() {
     PageTransitionEnter({ type: RouteType.Push, duration: 400 }).slide(SlideEffect.Right)
     PageTransitionEnter({ type: RouteType.Pop, duration: 400 }).slide(SlideEffect.Left)

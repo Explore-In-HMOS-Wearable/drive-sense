@@ -67,19 +67,19 @@ struct HistoryPage {
               end: {
                 builder: () => this.itemEnd(summary.id),
                 onAction: () => {
-                  animateTo({ duration: ConstantUI.LONG_DURATION }, () => {
+                  this.getUIContext().animateTo({ duration: ConstantUI.LONG_DURATION }, () => {
                     this.viewModel.deleteDriveSummary(summary.id, (success: boolean) => {
                       if (success) {
-                      animateTo({duration:ConstantUI.LONG_DURATION},() => {
-                        this.viewModel.getDriveSummary(() => {
-                          this.driveSummaries = this.viewModel.driveSummaries.reverse();
-                        });
-                      })
+                        this.getUIContext().animateTo({ duration: ConstantUI.LONG_DURATION }, () => {
+                          this.viewModel.getDriveSummary(() => {
+                            this.driveSummaries = this.viewModel.driveSummaries.reverse();
+                          });
+                        })
                       }
                     });
                   })
                 },
-                actionAreaDistance:56
+                actionAreaDistance: 56
               }
             })
             .margin({ bottom: 12, left: ConstantUI.MARGIN_BOTTOM_VERSION, right: ConstantUI.MARGIN_BOTTOM_VERSION })

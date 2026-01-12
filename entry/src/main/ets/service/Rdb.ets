@@ -1,4 +1,5 @@
 import { relationalStore } from '@kit.ArkData';
+import { common } from '@kit.AbilityKit';
 import CommonConstantsDb from '../util/CommonConstantsDb';
 import Logger from '../util/Logger';
 
@@ -7,12 +8,18 @@ export default class Rdb {
   private tableName: string;
   private sqlCreateTable: string;
   private columns: Array<string>;
+  private context: common.Context | null = null;
 
   constructor(tableName: string, sqlCreateTable: string, columns: Array<string>) {
     this.tableName = tableName;
     this.sqlCreateTable = sqlCreateTable;
     this.columns = columns;
   }
+
+  setContext(context: common.Context): void {
+    this.context = context;
+  }
+
   executeSql(sql: string, callback?: (err?: Error) => void): void {
     if (!this.rdbStore) {
       Logger.error('❌ RDB store not initialized.')
@@ -31,8 +38,7 @@ export default class Rdb {
     });
   }
 
-  getRdbStore(callback: Function = () => {
-  }) {
+  getRdbStore(callback: Function = () => {}) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
       Logger.info(CommonConstantsDb.RDB_TAG, 'getRdbStore() has no callback!');
       return;
@@ -40,10 +46,15 @@ export default class Rdb {
     if (this.rdbStore !== null) {
       Logger.info(CommonConstantsDb.RDB_TAG, 'The rdbStore exists.');
       callback();
-      return
+      return;
     }
-    let context = getContext(this) as Context;
-    relationalStore.getRdbStore(context, CommonConstantsDb.STORE_CONFIG, (err, rdb) => {
+
+    if (!this.context) {
+      Logger.error(CommonConstantsDb.RDB_TAG, 'Context not set! Call setContext() first.');
+      return;
+    }
+
+    relationalStore.getRdbStore(this.context, CommonConstantsDb.STORE_CONFIG, (err, rdb) => {
       if (err) {
         Logger.error(CommonConstantsDb.RDB_TAG, `gerRdbStore() failed, err: ${err.code}`);
         return;
@@ -56,7 +67,10 @@ export default class Rdb {
   }
 
   insertData(data: relationalStore.ValuesBucket, callback: (success: boolean) => void = () => {}): void {
-    if (!this.rdbStore) {return;}
+    if (!this.rdbStore) {
+      callback(false);
+      return;
+    }
     this.rdbStore.insert(this.tableName, data, (err, result) => {
       if (err) {
         Logger.error('[RDB] Insert Error:');
@@ -67,9 +81,7 @@ export default class Rdb {
     });
   }
 
-
-  deleteData(predicates: relationalStore.RdbPredicates, callback: Function = () => {
-  }) {
+  deleteData(predicates: relationalStore.RdbPredicates, callback: Function = () => {}) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
       Logger.info(CommonConstantsDb.RDB_TAG, 'deleteData() has no callback!');
       return;
@@ -88,29 +100,27 @@ export default class Rdb {
     }
   }
 
-  updateData(predicates: relationalStore.RdbPredicates, data: relationalStore.ValuesBucket, callback: Function = () => {
-  }) {
-    if (!callback || typeof callback === 'undefined' || callback === undefined) {
-      Logger.info(CommonConstantsDb.RDB_TAG, 'updateDate() has no callback!');
+updateData(predicat: relationalStore.RdbPredicates, data: relationalStore.ValuesBucket, call: Function = () => {}) {
+    if (!call || typeof call === 'undefined' || call === undefined) {
+      Logger.info(CommonConstantsDb.RDB_TAG, 'updateDate() has no call!');
       return;
     }
     let resFlag: boolean = false;
     const valueBucket: relationalStore.ValuesBucket = data;
     if (this.rdbStore) {
-      this.rdbStore.update(valueBucket, predicates, (err, ret) => {
+      this.rdbStore.update(valueBucket, predicat, (err, ret) => {
         if (err) {
           Logger.error(CommonConstantsDb.RDB_TAG, `updateData() failed, err: ${err}`);
-          callback(resFlag);
+          call(resFlag);
           return;
         }
         Logger.info(CommonConstantsDb.RDB_TAG, `updateData() finished: ${ret}`);
-        callback(!resFlag);
+        call(!resFlag);
       });
     }
   }
 
-  query(predicates: relationalStore.RdbPredicates, callback: Function = () => {
-  }) {
+  query(predicates: relationalStore.RdbPredicates, callback: Function = () => {}) {
     if (!callback || typeof callback === 'undefined' || callback === undefined) {
       Logger.info(CommonConstantsDb.RDB_TAG, 'query() has no callback!');
       return;
